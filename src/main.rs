@@ -20,11 +20,20 @@ use tower_http::{
     trace::TraceLayer
 };
 
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+
+use async_session::{MemoryStore, Session, SessionStore};
+
 #[tokio::main]
 async fn main() {
 
     // start tracing
-    tracing_subscriber::fmt::init();
+    tracing_subscriber::registry()
+        .with(tracing_subscriber::EnvFilter::new(
+            std::env::var("RUST_LOG").unwrap_or_else(|_| "svelte_axum_project=debug".into()),
+        ))
+        .with(tracing_subscriber::fmt::layer())
+        .init();
 
     // configure server from environmental variables
     let port = env::var("SERVER_PORT")
@@ -38,6 +47,9 @@ async fn main() {
     let frontend = Router::new()
         .fallback(get_service(ServeDir::new("./public")).handle_error(handle_error))
         .layer(TraceLayer::new_for_http());
+
+    // need to create middleware to manage sessions and store user_id
+
 
 
     let backend = Router::new()

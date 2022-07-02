@@ -1,24 +1,13 @@
 {
   "name": "svelte-axum-project",
   "description": "svelte front end with axum backend",
+  "author": "Jas Bertovic",
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jbertovic/svelte-axum-project.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jbertovic/svelte-axum-project/issues"
-  },
-  "homepage": "https://github.com/jbertovic/svelte-axum-project#readme",
-  "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w"
+    "dev": "rollup -c -w",
+    "start": "cargo run"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^22.0.1",
