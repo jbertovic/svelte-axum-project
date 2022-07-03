@@ -22,7 +22,16 @@ use tower_http::{
 
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-use async_session::{MemoryStore, Session, SessionStore};
+use axum_sessions::{
+    async_session::MemoryStore,
+    SessionLayer,
+};
+
+pub mod middleware;
+pub mod routes;
+
+// figure out a way to modify the cookie name
+const SESSION_COOKIE_NAME: &str = "axum_swelte_session";
 
 #[tokio::main]
 async fn main() {
@@ -42,20 +51,26 @@ async fn main() {
     let host = env::var("SERVER_HOST")
         .ok()
         .unwrap_or_else(|| "127.0.0.1".to_string());
-    let addr: SocketAddr = format!("{}:{}", host, port).parse().expect("Can not parse address and port");
+    let secret = env::var("SERVER_SECRET")
+        .ok()
+        .unwrap_or_else(|| "this needs to be 64bytes. recommended that you set Secret instead of fixed value".to_string());
+    
+        let addr: SocketAddr = format!("{}:{}", host, port).parse().expect("Can not parse address and port");
 
+    // Front end to server svelte build bundle, css and index.html from public folder
     let frontend = Router::new()
         .fallback(get_service(ServeDir::new("./public")).handle_error(handle_error))
         .layer(TraceLayer::new_for_http());
 
-    // need to create middleware to manage sessions and store user_id
-
-
+    // setup up sessions and store to keep track of session information
+    let session_layer = SessionLayer::new(MemoryStore::new(), secret.as_bytes()).with_cookie_name(SESSION_COOKIE_NAME);
 
     let backend = Router::new()
         .route(
            "/api", get(|| async { "/api not yet implemented"})
-        );
+        )
+        .route("/session", get(routes::session::session_out_handler ) )
+        .layer(session_layer);
 
     let app = Router::new()
         .merge(frontend)

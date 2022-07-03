@@ -8,6 +8,10 @@ TODO:
 - (SVELTE) Finish Log in and Log out
 - (RUST) Add State to hold some arbitrary data to show how it would work
 
+Created from a similar idea as [svelte-tide-project](https://github.com/jbertovic/svelte-tide-project)
+
+Used examples from Axum project to help with setup, especially [Session](https://github.com/tokio-rs/axum/tree/main/examples/sessions).
+
 # Backend - Rust Axum
 
 - created with State with only `user_id` set
