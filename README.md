@@ -1,28 +1,31 @@
 # svelte-axum-project
 
 TODO:
-- (RUST) Add CORS
-- (JS) test livereload again
-- (RUST) Add Sessions
-    able to set user_id
+- (RUST) able to set and get user_id
 - (SVELTE) Finish Log in and Log out
+- (RUST) authorization middleware function
 - (RUST) Add State to hold some arbitrary data to show how it would work
 
 Created from a similar idea as [svelte-tide-project](https://github.com/jbertovic/svelte-tide-project)
 
-Used examples from Axum project to help with setup, especially [Session](https://github.com/tokio-rs/axum/tree/main/examples/sessions).
-
 # Backend - Rust Axum
 
-- created with State with only `user_id` set
+- serves front end directory
+- adds sessions middleware
+- store user_id into session
+- api example using authorization
 
 run as `cargo run`
 
 ## Middleware added
-- CORS
 - Sessions
+- Authorization 
 
 # Frontend - Svelte
+
+- navbar with login and logout
+- admin page that shows session information
+- api fetch example
 
 run as `npm run build`
 
@@ -34,4 +37,4 @@ Install the following
 
 Clone the repository
 - cd repository
-- npm install to download all module dependencies
+- `npm install` to download all module dependencies
