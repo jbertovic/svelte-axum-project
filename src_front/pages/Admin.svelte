@@ -1,2 +1,0 @@
-
-<p>Admin Page</p>

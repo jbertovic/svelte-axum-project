@@ -1,19 +1,23 @@
 <script>
 	import {user} from './js/store.js';
+	import {fetch_session} from './js/auth.js'
 	import NavBar from "./component/Navbar.svelte";
 	import LogIn from "./pages/Login.svelte";
 	import LogOut from "./pages/Logout.svelte";
-	import Admin from "./pages/Admin.svelte";
+	import Secure from "./pages/Secure.svelte";
+	import {onMount} from 'svelte';
 
 	let menu;
 	$: loggedin = $user !== '';
 
+    // check if logged in
+    onMount(fetch_session);
 
 	const set_menu_items = (loggedin) => {
 		if (loggedin) {
 			return [
 				{"label": "About", "id": 1},
-				{"label": "Admin", "id": 3},
+				{"label": "Secure", "id": 3},
 				{"label": "Logout", "id": 4},
 			];
 		} else {
@@ -42,7 +46,7 @@
 {:else if menu === 2}
 	<LogIn />
 {:else if menu === 3}
-	<Admin />
+	<Secure />
 {:else if menu === 4}
 	<LogOut />
 {:else}

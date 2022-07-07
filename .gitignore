@@ -1,9 +1,9 @@
+# from rust
 /target
 
 # from svelte
-node_modules
-dist
-dist-ssr
+/node_modules
+/public/build
 
 # Editor directories and files
 .vscode/*
