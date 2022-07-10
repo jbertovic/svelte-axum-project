@@ -1,17 +1,11 @@
 <script>
     import {user} from './../js/store.js';
+    import {getLogout} from './../js/auth.js'
     import {onMount} from 'svelte';
-    let errorMessage;
 
-    onMount(async() => {
-            const res = await fetch('/auth/logout',{credentials: 'same-origin'});
-            let logoutResponse = await res.json();
-            if (logoutResponse.result == "error") {
-                errorMessage = logoutResponse.message;
-            }else {
-                user.set('');
-            }
-    });
+    $user
+
+    onMount(getLogout);
     
 </script>
 

@@ -3,13 +3,15 @@ use axum::{
     response::IntoResponse,
     routing::{get, get_service, post},
     Router,
-    middleware,
+    middleware, Extension,
 };
-use std::env;
+use std::{env, sync::Arc};
 use std::{io, net::SocketAddr};
 use tower_http::{services::ServeDir, trace::TraceLayer};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use axum_sessions::{async_session::MemoryStore, SessionLayer};
+
+mod store;
 
 pub mod middlewares;
 pub mod routes;
@@ -47,6 +49,9 @@ async fn main() {
         .parse()
         .expect("Can not parse address and port");
 
+    // create store for backend.  Stores an api_token.
+    let shared_state = Arc::new(store::Store::new("123456789"));
+
     // Front end to server svelte build bundle, css and index.html from public folder
     let frontend = Router::new()
         .fallback(get_service(ServeDir::new("./public")).handle_error(handle_error))
@@ -58,21 +63,32 @@ async fn main() {
 
     // Back end to serve:
     // NON-AUTH AREA routes: login, logout and session
+    // `/test` shows example of a non implemented route
     let non_auth_backend = Router::new()
         .route("/auth/session", get(routes::session_data_handler)) // gets session data
         .route("/auth/login", post(routes::login)) // sets username in session
-        .route("/auth/logout", get(routes::not_implemented_route)) // deletes username in session
+        .route("/auth/logout", get(routes::logout)) // deletes username in session
         .route("/test", get(routes::not_implemented_route));
 
-    // AUTH AREA routes: secure
-    let auth_backend = Router::new()
+    // AUTH AREA routes:
+    // `/secure` shows an example of checking session information for user_id to allow access
+    // `/api` can be accessed using an authorization header and no session
+    let auth_backend_using_token = Router::new()
+        .route("/api", get(routes::not_implemented_route))
+        .route_layer(middleware::from_fn(middlewares::auth));
+    let auth_backend_using_session = Router::new()
         .route("/secure", get(routes::session_out_handler))
         .route_layer(middleware::from_fn(middlewares::user_secure));
 
+
+    // could add tower::ServiceBuilder here to group layers, especially if you add more layers.
+    // see https://docs.rs/axum/latest/axum/middleware/index.html#ordering
     let backend = Router::new()
         .merge(non_auth_backend)
-        .merge(auth_backend)
-        .layer(session_layer);
+        .merge(auth_backend_using_token)
+        .merge(auth_backend_using_session)
+        .layer(session_layer)
+        .layer(Extension(shared_state));
 
     let app = Router::new().merge(frontend).merge(backend);
 

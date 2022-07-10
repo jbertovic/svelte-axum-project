@@ -1,32 +1,16 @@
 <script>
     import { user } from "./../js/store.js";
+    import { getSession, postLogin } from "./../js/auth"
 
     let username, password;
     let errorMessage = "";
 
     async function handleLogin() {
-        const res = await fetch("/auth/login", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username: username, password: password }),
-        });
-        let loginResponse = await res.json();
+        let loginResponse = await postLogin(username, password);
         if (loginResponse.result == "error") {
             errorMessage = loginResponse.message;
         } else {
-            const res = await fetch("/session", {
-                credentials: "same-origin",
-            });
-            let sessionResponse = await res.json();
-            console.log(sessionResponse);
-            if (sessionResponse.user_id !== "") {
-                user.set(sessionResponse.user_id);
-            } else {
-                user.set("");
-            }
+            getSession();
         }
     }
 </script>

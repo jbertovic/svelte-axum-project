@@ -1,10 +1,7 @@
 # svelte-axum-project
 
 TODO:
-- (RUST) able to set and get user_id
-- (SVELTE) Finish Log in and Log out
-- (RUST) authorization middleware function
-- (RUST) Add State to hold some arbitrary data to show how it would work
+- Add API access check from svelte
 
 Created from a similar idea as [svelte-tide-project](https://github.com/jbertovic/svelte-tide-project)
 

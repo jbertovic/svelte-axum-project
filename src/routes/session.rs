@@ -6,7 +6,7 @@ use axum_sessions::async_session::{Session, serde_json::json};
 /// output entire session object
 pub async fn session_out_handler(Extension(session): Extension<Session>) -> impl IntoResponse {
     tracing::info!("Seeking session info");
-    format!("{:?}", session)
+    Json(json!({"session": format!("{:?}",session)}))
 }
 
 /// output session data in json

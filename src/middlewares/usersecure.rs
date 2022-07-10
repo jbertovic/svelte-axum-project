@@ -9,8 +9,12 @@ pub async fn user_secure<B>(req: Request<B>, next: Next<B>) -> Result<Response, 
     tracing::info!("Middleware: checking if user exists");
     let session = req.extensions()
         .get::<Session>().ok_or(StatusCode::UNAUTHORIZED)?;
-    tracing::debug!("Session Extracted: {:?}", session);    
+
     let user_id = session.get_raw("user_id").ok_or(StatusCode::UNAUTHORIZED)?;
     tracing::debug!("user_id Extracted: {}", user_id);    
+
+    // accepts all user but you could add a check here to match user access
+
     Ok(next.run(req).await)
 }
+

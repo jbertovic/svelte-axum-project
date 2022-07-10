@@ -15,6 +15,15 @@ pub async fn login(Json(login): Json<Login>, Extension(mut session): Extension<S
 
 }
 
+/// route to handle log out
+pub async fn logout(Extension(mut session): Extension<Session>) -> impl IntoResponse {
+    let user = session.get_raw("user_id").unwrap_or_default();
+    tracing::info!("Logging out user: {}", user);
+    // drop session
+    session.destroy();
+    Json(json!({"result": "ok"}))
+}
+
 // assume all passwords work
 fn check_password(_username: &str, _password: &str) -> bool {
     true
