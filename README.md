@@ -29,9 +29,12 @@ run as `npm run build`
 # Setup
 
 Install the following
-- npm 
+- npm
 - rust
 
 Clone the repository
 - cd repository
-- `npm install` to download all module dependencies
+- `npm install` to download all module dependencies inside root directory of project
+- `npm run build` to bundle the js/svelte code into public folder
+- `cargo run` to run the server
+- access in browser at http://localhost:8080/
