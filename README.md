@@ -6,7 +6,7 @@ TODO:
 Created from a similar idea as [svelte-tide-project](https://github.com/jbertovic/svelte-tide-project)
 
 # Backend - Rust Axum
-
+- located in `./src`
 - serves front end directory
 - adds sessions middleware
 - store user_id into session
@@ -19,7 +19,7 @@ run as `cargo run`
 - Authorization 
 
 # Frontend - Svelte
-
+- Located in `./src_front`
 - navbar with login and logout
 - admin page that shows session information
 - api fetch example

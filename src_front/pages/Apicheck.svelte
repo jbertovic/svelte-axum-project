@@ -1,22 +1,31 @@
 <script>
-    let token; 
-  
+    import { getApi } from "../js/fetch.js"
+
+    let token="123456789"; 
+    let response ="";
+    
+    async function handlebutton() {
+        response = "<nothing returned>";
+        response = JSON.stringify(await getApi(token));
+        console.log(`TOKEN: ${token}`);
+        console.log(`RESPONSE: ${response}`);
+    }
+
  
 </script>
 
-<pre>
-    
-    Show Button to get API
-    Input Text box to input api token
-    on click try to grab API
-</pre>
+<p>
+You can try using the default API to access api of backend server or you can try entering a bad token to see what happens. This can be used with or without logging in.
+</p>
 
-<label for="apiToken">Username</label>
+<label for="apiToken">API Token</label>
 <input
     class="input"
     type="text"
-    value={token}
+    bind:value={token}
 />
-<button >
+<button on:click={handlebutton}>
     Get /api
 </button>
+
+<pre>RESPONSE: {response}</pre>
