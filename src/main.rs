@@ -3,7 +3,7 @@ use axum::{
     response::IntoResponse,
     routing::{get, get_service, post},
     Router,
-    middleware, Extension, error_handling::HandleError,
+    middleware, Extension,
 };
 use std::{env, sync::Arc};
 use std::{io, net::SocketAddr};
@@ -72,9 +72,8 @@ async fn main() {
 
     // AUTH AREA routes:
     // `/secure` shows an example of checking session information for user_id to allow access
-    // `/api` can be accessed using an authorization header and no session
+    // `/api` can be accessed using an authorization header and with no session
     let auth_backend_using_token = Router::new()
-        // .route("/api", HandleError::new(routes::api_handler, middlewares::handle_error_to_json))
         .route("/api", get(routes::api_handler))
         .route_layer(middleware::from_fn(middlewares::auth));
     let auth_backend_using_session = Router::new()

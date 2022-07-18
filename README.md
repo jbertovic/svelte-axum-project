@@ -1,35 +1,32 @@
 # svelte-axum-project
 
-TODO:
-- Add API access check from svelte
-
 Created from a similar idea as [svelte-tide-project](https://github.com/jbertovic/svelte-tide-project)
 
 # Backend - Rust Axum
 - located in `./src`
 - serves front end directory
-- adds sessions middleware
-- store user_id into session
-- api example using authorization
+- middleware for checking authorization header
+- middleware for checking session that user exists
+- store example that holds token secret for authorization
+- /api route example using authorization header
+- /secure route example using sessions for authorization
+
+Note there is no persistance beyond what's held in memory while the application is running
 
 run as `cargo run`
-
-## Middleware added
-- Sessions
-- Authorization 
 
 # Frontend - Svelte
 - Located in `./src_front`
 - navbar with login and logout
-- admin page that shows session information
-- api fetch example
+- secure page that shows session information once logged in
+- api fetch example, log in not required
 
 run as `npm run build`
 
 # Setup
 
 Install the following
-- npm
+- npm / nodejs
 - rust
 
 Clone the repository
