@@ -2,6 +2,8 @@
 
 Created from a similar idea as [svelte-tide-project](https://github.com/jbertovic/svelte-tide-project)
 
+![](capture_localhost.gif)
+
 # Backend - Rust Axum
 - located in `./src`
 - serves front end directory
@@ -26,8 +28,8 @@ run as `npm run build`
 # Setup
 
 Install the following
-- npm / nodejs
-- rust
+NodeJs - [Install](https://nodejs.org/en/download/)
+Rust  - [Install](https://www.rust-lang.org/tools/install)
 
 Clone the repository
 - cd repository
