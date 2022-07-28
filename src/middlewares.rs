@@ -1,5 +1,5 @@
-mod usersecure;
 mod authenticator;
+mod usersecure;
 
-pub use usersecure::user_secure;
 pub use authenticator::auth;
+pub use usersecure::user_secure;

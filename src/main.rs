@@ -1,24 +1,23 @@
 use axum::{
     http::StatusCode,
+    middleware,
     response::IntoResponse,
     routing::{get, get_service, post},
-    Router,
-    middleware, Extension,
+    Extension, Router,
 };
+use axum_sessions::{async_session::MemoryStore, SessionLayer};
 use std::{env, sync::Arc};
 use std::{io, net::SocketAddr};
 use tower_http::{services::ServeDir, trace::TraceLayer};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-use axum_sessions::{async_session::MemoryStore, SessionLayer};
 
 mod store;
 
 pub mod middlewares;
 pub mod routes;
 
-
 // figure out a way to modify the cookie name
-const SESSION_COOKIE_NAME: &str = "axum_swelte_session";
+const SESSION_COOKIE_NAME: &str = "axum_svelte_session";
 
 /// Server that is split into a Frontend to serve static files (Svelte) and Backend
 /// Backend is further split into a non authorized area and a secure area
@@ -80,7 +79,6 @@ async fn main() {
         .route("/secure", get(routes::session_out_handler))
         .route_layer(middleware::from_fn(middlewares::user_secure));
 
-
     // could add tower::ServiceBuilder here to group layers, especially if you add more layers.
     // see https://docs.rs/axum/latest/axum/middleware/index.html#ordering
     let backend = Router::new()
@@ -96,10 +94,23 @@ async fn main() {
 
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
+        .with_graceful_shutdown(shutdown_signal())
         .await
         .unwrap();
 }
 
 async fn handle_error(_err: io::Error) -> impl IntoResponse {
-    (StatusCode::INTERNAL_SERVER_ERROR, "Something went wrong accessing static files...")
+    (
+        StatusCode::INTERNAL_SERVER_ERROR,
+        "Something went wrong accessing static files...",
+    )
+}
+
+/// Tokio signal handler that will wait for a user to press CTRL+C.
+/// We use this in our hyper `Server` method `with_graceful_shutdown`.
+async fn shutdown_signal() {
+    tokio::signal::ctrl_c()
+        .await
+        .expect("Expect shutdown signal handler");
+    println!("signal shutdown");
 }

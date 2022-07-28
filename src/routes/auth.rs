@@ -1,9 +1,12 @@
-use axum::{response::IntoResponse, Json, Extension};
+use axum::{response::IntoResponse, Extension, Json};
 use axum_sessions::async_session::{serde_json::json, Session};
 use serde::Deserialize;
 
 /// route to handle log in
-pub async fn login(Json(login): Json<Login>, Extension(mut session): Extension<Session>) -> impl IntoResponse {
+pub async fn login(
+    Json(login): Json<Login>,
+    Extension(mut session): Extension<Session>,
+) -> impl IntoResponse {
     tracing::info!("Logging in user: {}", login.username);
 
     if check_password(&login.username, &login.password) {
@@ -12,7 +15,6 @@ pub async fn login(Json(login): Json<Login>, Extension(mut session): Extension<S
     } else {
         Json(json!({"result": "error"}))
     }
-
 }
 
 /// route to handle log out
@@ -28,7 +30,6 @@ pub async fn logout(Extension(mut session): Extension<Session>) -> impl IntoResp
 fn check_password(_username: &str, _password: &str) -> bool {
     true
 }
-
 
 #[derive(Deserialize)]
 pub struct Login {
