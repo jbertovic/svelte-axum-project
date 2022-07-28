@@ -1,5 +1,3 @@
-
-
 #[derive(Clone, Debug, Default)]
 pub struct Store {
     api_token: String,
@@ -7,7 +5,9 @@ pub struct Store {
 
 impl Store {
     pub fn new(api_token: &str) -> Self {
-        Store { api_token: api_token.to_string() }
+        Store {
+            api_token: api_token.to_string(),
+        }
     }
 
     pub fn api_token_check(&self, auth_header: &str) -> bool {

@@ -1,8 +1,10 @@
 use axum::{response::IntoResponse, Json};
-use axum_sessions::async_session::{serde_json::json};
+use axum_sessions::async_session::serde_json::json;
 
 /// imitating an API response
 pub async fn api_handler() -> impl IntoResponse {
     tracing::info!("Seeking api data");
-    Json(json!({"result": "ok", "message": "You've reached the backend API by using a valid token."}))
+    Json(
+        json!({"result": "ok", "message": "You've reached the backend API by using a valid token."}),
+    )
 }
