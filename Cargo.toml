@@ -2,7 +2,12 @@
 name = "svelte-axum-project"
 version = "0.1.0"
 edition = "2021"
-
+repository = "https://github.com/jbertovic/svelte-axum-project"
+keywords = ["template", "backend", "frontend", "axum", "svelte"]
+license = ""
+categories = []
+description = ""
+readme = "README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]

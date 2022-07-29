@@ -12,10 +12,11 @@ use crate::store::Store;
 
 /// middleware function to authenticate authorization token
 /// check store that contains token and see if it matches authorization header starting with "Bearer"
-/// used example in axum docs on middleware https://docs.rs/axum/latest/axum/middleware/index.html
+/// used example in axum docs on middleware <https://docs.rs/axum/latest/axum/middleware/index.html>
 ///
 /// Returns Error's in JSON format.  
-pub async fn auth<B>(
+#[allow(clippy::missing_errors_doc)]
+pub async fn auth<B: Send + Sync>(
     req: Request<B>,
     next: Next<B>,
 ) -> Result<Response, (StatusCode, Json<JsonError>)> {
@@ -58,18 +59,18 @@ pub struct JsonError {
 }
 
 impl JsonError {
-    pub fn new(error: String) -> Self {
-        JsonError { error }
+    pub const fn new(error: String) -> Self {
+        Self { error }
     }
 
     pub fn unauthorized() -> Self {
-        JsonError {
+        Self {
             error: "Unauthorized".into(),
         }
     }
 
     pub fn internal() -> Self {
-        JsonError {
+        Self {
             error: "Internal Server Error".into(),
         }
     }

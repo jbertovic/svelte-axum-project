@@ -5,7 +5,8 @@ use axum::{
 };
 use axum_sessions::async_session::Session;
 
-pub async fn user_secure<B>(req: Request<B>, next: Next<B>) -> Result<Response, StatusCode> {
+#[allow(clippy::missing_errors_doc)]
+pub async fn user_secure<B: Send>(req: Request<B>, next: Next<B>) -> Result<Response, StatusCode> {
     tracing::info!("Middleware: checking if user exists");
     let session = req
         .extensions()
