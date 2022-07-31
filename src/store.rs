@@ -5,7 +5,7 @@ pub struct Store {
 
 impl Store {
     pub fn new(api_token: &str) -> Self {
-        Store {
+        Self {
             api_token: api_token.to_string(),
         }
     }

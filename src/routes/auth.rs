@@ -3,6 +3,8 @@ use axum_sessions::async_session::{serde_json::json, Session};
 use serde::Deserialize;
 
 /// route to handle log in
+#[allow(clippy::unused_async)]
+#[allow(clippy::missing_panics_doc)]
 pub async fn login(
     Json(login): Json<Login>,
     Extension(mut session): Extension<Session>,
@@ -18,6 +20,7 @@ pub async fn login(
 }
 
 /// route to handle log out
+#[allow(clippy::unused_async)]
 pub async fn logout(Extension(mut session): Extension<Session>) -> impl IntoResponse {
     let user = session.get_raw("user_id").unwrap_or_default();
     tracing::info!("Logging out user: {}", user);
@@ -27,7 +30,7 @@ pub async fn logout(Extension(mut session): Extension<Session>) -> impl IntoResp
 }
 
 // assume all passwords work
-fn check_password(_username: &str, _password: &str) -> bool {
+const fn check_password(_username: &str, _password: &str) -> bool {
     true
 }
 

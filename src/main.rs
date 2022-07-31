@@ -1,3 +1,8 @@
+#![deny(clippy::all)]
+#![warn(clippy::pedantic)]
+#![warn(clippy::nursery)]
+#![allow(missing_docs)]
+
 use axum::{
     http::StatusCode,
     middleware,
@@ -64,7 +69,7 @@ async fn main() {
     // NON-AUTH AREA routes: login, logout and session
     // `/test` shows example of a non implemented route
     let non_auth_backend = Router::new()
-        .route("/auth/session", get(routes::session_data_handler)) // gets session data
+        .route("/auth/session", get(routes::session::data_handler)) // gets session data
         .route("/auth/login", post(routes::login)) // sets username in session
         .route("/auth/logout", get(routes::logout)) // deletes username in session
         .route("/test", get(routes::not_implemented_route));
@@ -73,10 +78,10 @@ async fn main() {
     // `/secure` shows an example of checking session information for user_id to allow access
     // `/api` can be accessed using an authorization header and with no session
     let auth_backend_using_token = Router::new()
-        .route("/api", get(routes::api_handler))
+        .route("/api", get(routes::api::handler))
         .route_layer(middleware::from_fn(middlewares::auth));
     let auth_backend_using_session = Router::new()
-        .route("/secure", get(routes::session_out_handler))
+        .route("/secure", get(routes::session::handler))
         .route_layer(middleware::from_fn(middlewares::user_secure));
 
     // could add tower::ServiceBuilder here to group layers, especially if you add more layers.
@@ -99,6 +104,7 @@ async fn main() {
         .unwrap();
 }
 
+#[allow(clippy::unused_async)]
 async fn handle_error(_err: io::Error) -> impl IntoResponse {
     (
         StatusCode::INTERNAL_SERVER_ERROR,
@@ -107,7 +113,7 @@ async fn handle_error(_err: io::Error) -> impl IntoResponse {
 }
 
 /// Tokio signal handler that will wait for a user to press CTRL+C.
-/// We use this in our hyper `Server` method `with_graceful_shutdown`.
+/// We use this in our `Server` method `with_graceful_shutdown`.
 async fn shutdown_signal() {
     tokio::signal::ctrl_c()
         .await
