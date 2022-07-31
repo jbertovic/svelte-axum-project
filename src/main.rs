@@ -69,7 +69,7 @@ async fn main() {
     // NON-AUTH AREA routes: login, logout and session
     // `/test` shows example of a non implemented route
     let non_auth_backend = Router::new()
-        .route("/auth/session", get(routes::data_handler)) // gets session data
+        .route("/auth/session", get(routes::session::data_handler)) // gets session data
         .route("/auth/login", post(routes::login)) // sets username in session
         .route("/auth/logout", get(routes::logout)) // deletes username in session
         .route("/test", get(routes::not_implemented_route));
@@ -78,10 +78,10 @@ async fn main() {
     // `/secure` shows an example of checking session information for user_id to allow access
     // `/api` can be accessed using an authorization header and with no session
     let auth_backend_using_token = Router::new()
-        .route("/api", get(routes::handler))
+        .route("/api", get(routes::api::handler))
         .route_layer(middleware::from_fn(middlewares::auth));
     let auth_backend_using_session = Router::new()
-        .route("/secure", get(routes::out_handler))
+        .route("/secure", get(routes::session::handler))
         .route_layer(middleware::from_fn(middlewares::user_secure));
 
     // could add tower::ServiceBuilder here to group layers, especially if you add more layers.

@@ -5,7 +5,7 @@ use axum_sessions::async_session::{serde_json::json, Session};
 
 /// output entire session object
 #[allow(clippy::unused_async)]
-pub async fn out_handler(Extension(session): Extension<Session>) -> impl IntoResponse {
+pub async fn handler(Extension(session): Extension<Session>) -> impl IntoResponse {
     tracing::info!("Seeking session info");
     Json(json!({ "session": format!("{:?}", session) }))
 }
