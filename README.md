@@ -1,5 +1,7 @@
 # svelte-axum-project
 
+Starting project template for Rust Axum backend and Svelte frontend.
+
 Created from a similar idea as [svelte-tide-project](https://github.com/jbertovic/svelte-tide-project)
 
 ![](capture_localhost.gif)
