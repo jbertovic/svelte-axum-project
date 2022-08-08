@@ -1,5 +1,5 @@
 use axum::{response::IntoResponse, Extension, Json};
-use axum_sessions::async_session::{serde_json::json, Session};
+use axum_sessions::{async_session::serde_json::json, extractors::WritableSession};
 use serde::Deserialize;
 
 /// route to handle log in
@@ -7,7 +7,7 @@ use serde::Deserialize;
 #[allow(clippy::missing_panics_doc)]
 pub async fn login(
     Json(login): Json<Login>,
-    Extension(mut session): Extension<Session>,
+    mut session: WritableSession,
 ) -> impl IntoResponse {
     tracing::info!("Logging in user: {}", login.username);
 
@@ -21,7 +21,7 @@ pub async fn login(
 
 /// route to handle log out
 #[allow(clippy::unused_async)]
-pub async fn logout(Extension(mut session): Extension<Session>) -> impl IntoResponse {
+pub async fn logout(mut session: WritableSession) -> impl IntoResponse {
     let user = session.get_raw("user_id").unwrap_or_default();
     tracing::info!("Logging out user: {}", user);
     // drop session
