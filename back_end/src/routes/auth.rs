@@ -1,4 +1,4 @@
-use axum::{response::IntoResponse, Extension, Json};
+use axum::{response::IntoResponse, Json};
 use axum_sessions::{async_session::serde_json::json, extractors::WritableSession};
 use serde::Deserialize;
 
