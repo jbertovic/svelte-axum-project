@@ -58,7 +58,7 @@ async fn main() {
 
     // Front end to server svelte build bundle, css and index.html from public folder
     let frontend = Router::new()
-        .fallback(get_service(ServeDir::new("./public")).handle_error(handle_error))
+        .fallback(get_service(ServeDir::new("./front_end/public")).handle_error(handle_error))
         .layer(TraceLayer::new_for_http());
 
     // setup up sessions and store to keep track of session information

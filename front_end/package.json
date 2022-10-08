@@ -1,8 +1,8 @@
 {
   "name": "svelte-axum-project",
-  "description": "svelte front end with axum backend",
+  "description": "svelte front end with axum backend template",
   "author": "Jas Bertovic",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "main": "index.js",
   "scripts": {
     "build": "rollup -c",

@@ -1,9 +1,11 @@
+# Editor directories and files
+.vscode/*
+
 # from rust
+Cargo.lock
 /target
 
 # from svelte
-/node_modules
-/public/build
-
-# Editor directories and files
-.vscode/*
+/front_end/node_modules
+/front_end/public/build/
+/front_end/package-lock.json
