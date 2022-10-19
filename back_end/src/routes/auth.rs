@@ -1,14 +1,11 @@
-use axum::{response::IntoResponse, Extension, Json};
+use axum::{response::IntoResponse, Json};
 use axum_sessions::{async_session::serde_json::json, extractors::WritableSession};
 use serde::Deserialize;
 
 /// route to handle log in
 #[allow(clippy::unused_async)]
 #[allow(clippy::missing_panics_doc)]
-pub async fn login(
-    Json(login): Json<Login>,
-    mut session: WritableSession,
-) -> impl IntoResponse {
+pub async fn login(Json(login): Json<Login>, mut session: WritableSession) -> impl IntoResponse {
     tracing::info!("Logging in user: {}", login.username);
 
     if check_password(&login.username, &login.password) {

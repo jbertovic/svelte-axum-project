@@ -8,7 +8,7 @@ import livereload from 'rollup-plugin-livereload';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-	input: 'src_front/main.js',
+	input: 'src/main.js',
 	output: {
 		sourcemap: true,
 		format: 'iife',

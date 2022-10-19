@@ -4,7 +4,7 @@ use axum::{
     middleware::Next,
     response::Response,
 };
-use axum_sessions::{extractors::ReadableSession};
+use axum_sessions::extractors::ReadableSession;
 
 #[allow(clippy::missing_errors_doc)]
 pub async fn user_secure<B: Send>(req: Request<B>, next: Next<B>) -> Result<Response, StatusCode> {
