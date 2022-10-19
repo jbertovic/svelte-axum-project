@@ -4,8 +4,9 @@
 - Front end and Back end are in two different project folders instead of just different src folders
 - Workspaces now allow you to add Rust code independent of the back end server setup
 - Also refactored some of the setup out of main.rs into a server.rs file
-- TODO: Use new Axum version
 
+# Help
+- If anyone has ideas of how to implement a build file that would handle the npm script build on the front end and the rust cargo run together, let me know.
 
 # svelte-axum-project
 

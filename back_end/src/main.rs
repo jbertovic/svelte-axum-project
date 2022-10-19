@@ -5,15 +5,15 @@
 
 use axum::Router;
 use axum_sessions::{async_session::MemoryStore, SessionLayer};
-use tracing::log::warn;
-use std::{env, sync::Arc};
 use std::net::SocketAddr;
+use std::{env, sync::Arc};
+use tracing::log::warn;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-mod store;
-mod services;
 pub mod middlewares;
 pub mod routes;
+mod services;
+mod store;
 
 // SETUP Constants
 const SESSION_COOKIE_NAME: &str = "axum_svelte_session";
@@ -74,7 +74,7 @@ async fn shutdown_signal() {
 // port, host, secret
 fn from_env() -> (String, String, String) {
     if env::var("SERVER_SECRET").is_err() {
-        warn!("SERVER_SECRET should be set and unique (64 bytes long)");
+        warn!("env var SERVER_SECRET should be set and unique (64 bytes long)");
     }
     (
         env::var("SERVER_PORT")
