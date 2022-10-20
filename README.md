@@ -16,6 +16,15 @@ Created from a similar idea as [svelte-tide-project](https://github.com/jbertovi
 
 ![](capture_localhost.gif)
 
+# Template
+## Using Cargo
+- Must have cargo generate installed: `cargo install cargo-generate`
+- Then use `cargo generate jbertovic/svelte-axum-project -n <your-project-name>`
+
+## Using git template
+- you can also just hit the "use this template" button in green on top of the repo
+- if you have gh cli installed check out `--template` option
+
 # Back end - Rust Axum
 - located in `./back_end`
 - serves front end directory
