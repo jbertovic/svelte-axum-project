@@ -64,7 +64,7 @@ pub fn back_public_route() -> Router<Body> {
 }
 
 // *********
-// BACKEND API
+// BACKEND SESSION
 // *********
 //
 pub fn back_auth_route() -> Router<Body> {
@@ -74,7 +74,7 @@ pub fn back_auth_route() -> Router<Body> {
 }
 
 // *********
-// BACKEND SESSION
+// BACKEND API
 // *********
 //
 pub fn back_token_route() -> Router<Body> {
