@@ -1,5 +1,8 @@
-# New Version 0.2.0
+# New Version 0.3.0
+- switched to using Vite as per current template setup from svelte [https://svelte.dev/](https://svelte.dev/)
+- modified backend to use `./front_end/dist` for static serve
 
+# New Version 0.2.0
 - Will create breaking changes since I modifed the folder structure to use Cargo Workspaces
 - Front end and Back end are in two different project folders instead of just different src folders
 - Workspaces now allow you to add Rust code independent of the back end server setup
