@@ -1,54 +1,75 @@
 <script>
-    import { onMount } from "svelte";
-  
-    export let navItems = [{ label: "logo", href: "#" }];
-    export let menu = 1;
+  import { onMount } from "svelte";
 
-    // Show mobile icon and display menu
-    let showMobileMenu = false;
-  
-    // Mobile menu click event handler
-    const handleMobileIconClick = () => (showMobileMenu = !showMobileMenu);
-  
-    // Media match query handler
-    const mediaQueryHandler = e => {
-      // Reset mobile state
-      if (!e.matches) {
-        showMobileMenu = false;
-      }
-    };
-  
-    // Attach media query listener on mount hook
-    onMount(() => {
-      const mediaListener = window.matchMedia("(max-width: 767px)");
-      mediaListener.addListener(mediaQueryHandler);
-    });
+  export let navItems = [{ label: "logo", href: "#" }];
+  export let menu = 1;
+
+  // Show mobile icon and display menu
+  let showMobileMenu = false;
+
+  // Mobile menu click event handler
+  const handleMobileIconClick = () => (showMobileMenu = !showMobileMenu);
+
+  // Media match query handler
+  const mediaQueryHandler = (e) => {
+    // Reset mobile state
+    if (!e.matches) {
+      showMobileMenu = false;
+    }
+  };
+
+  // Menu selection
+  const handleMenuSelection = (id) => {
+    menu = id;
+    showMobileMenu = false;
+  };
+
+  function handleKeyDown(e) {
+    if (e.keyCode === 13) {
+      handleMobileIconClick();
+    }
+  }
+
+  // Attach media query listener on mount hook
+  onMount(() => {
+    const mediaListener = window.matchMedia("(max-width: 767px)");
+    mediaListener.addListener(mediaQueryHandler);
+  });
 </script>
 
 <nav>
-    <div class="inner">
-      <div on:click={handleMobileIconClick} class={`mobile-icon${showMobileMenu ? ' active' : ''}`}>
-        <div class="middle-line"></div>
-      </div>
-      <ul class={`navbar-list${showMobileMenu ? ' mobile' : ''}`}>
-        {#each navItems as item}
-          <li>
-            <a href="/" on:click|preventDefault={() => (menu = item.id)}>{item.label}</a>
-        </li>
-        {/each}
-      </ul>
+  <div class="inner">
+    <div
+      role="button"
+      tabindex=0
+      on:keydown={handleKeyDown}
+      on:click={handleMobileIconClick}
+      class={`mobile-icon${showMobileMenu ? " active" : ""}`}
+    >
+      <div class="middle-line" />
     </div>
-  </nav>
-
+    <ul class={`navbar-list${showMobileMenu ? " mobile" : ""}`}>
+      {#each navItems as item}
+        <li>
+          <a
+            href="/"
+            on:click|preventDefault={() => handleMenuSelection(item.id)}
+            >{item.label}</a
+          >
+        </li>
+      {/each}
+    </ul>
+  </div>
+</nav>
 
 <style>
-    nav {
+  nav {
     background-color: rgba(0, 0, 0, 0.8);
     font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     height: 45px;
-    }
+  }
 
-    .inner {
+  .inner {
     max-width: 980px;
     padding-left: 20px;
     padding-right: 20px;
@@ -57,18 +78,18 @@
     display: flex;
     align-items: center;
     height: 100%;
-    }
+  }
 
-    .mobile-icon {
+  .mobile-icon {
     width: 25px;
     height: 14px;
     position: relative;
     cursor: pointer;
-    }
+  }
 
-    .mobile-icon:after,
-    .mobile-icon:before,
-    .middle-line {
+  .mobile-icon:after,
+  .mobile-icon:before,
+  .middle-line {
     content: "";
     position: absolute;
     width: 100%;
@@ -76,71 +97,71 @@
     background-color: #fff;
     transition: all 0.4s;
     transform-origin: center;
-    }
+  }
 
-    .mobile-icon:before,
-    .middle-line {
+  .mobile-icon:before,
+  .middle-line {
     top: 0;
-    }
+  }
 
-    .mobile-icon:after,
-    .middle-line {
+  .mobile-icon:after,
+  .middle-line {
     bottom: 0;
-    }
+  }
 
-    .mobile-icon:before {
+  .mobile-icon:before {
     width: 66%;
-    }
+  }
 
-    .mobile-icon:after {
+  .mobile-icon:after {
     width: 33%;
-    }
+  }
 
-    .middle-line {
+  .middle-line {
     margin: auto;
-    }
+  }
 
-    .mobile-icon:hover:before,
-    .mobile-icon:hover:after,
-    .mobile-icon.active:before,
-    .mobile-icon.active:after,
-    .mobile-icon.active .middle-line {
+  .mobile-icon:hover:before,
+  .mobile-icon:hover:after,
+  .mobile-icon.active:before,
+  .mobile-icon.active:after,
+  .mobile-icon.active .middle-line {
     width: 100%;
-    }
+  }
 
-    .mobile-icon.active:before,
-    .mobile-icon.active:after {
+  .mobile-icon.active:before,
+  .mobile-icon.active:after {
     top: 50%;
     transform: rotate(-45deg);
-    }
+  }
 
-    .mobile-icon.active .middle-line {
+  .mobile-icon.active .middle-line {
     transform: rotate(45deg);
-    }
+  }
 
-    .navbar-list {
+  .navbar-list {
     display: none;
     width: 100%;
     justify-content: space-between;
     margin: 0;
     padding: 0 40px;
-    }
+  }
 
-    .navbar-list.mobile {
+  .navbar-list.mobile {
     background-color: rgba(0, 0, 0, 0.8);
     position: fixed;
     display: block;
     height: calc(100% - 45px);
     bottom: 0;
     left: 0;
-    }
+  }
 
-    .navbar-list li {
+  .navbar-list li {
     list-style-type: none;
     position: relative;
-    }
+  }
 
-    .navbar-list li:before {
+  .navbar-list li:before {
     content: "";
     position: absolute;
     bottom: 0;
@@ -148,9 +169,9 @@
     width: 100%;
     height: 1px;
     background-color: #424245;
-    }
+  }
 
-    .navbar-list a {
+  .navbar-list a {
     color: #fff;
     text-decoration: none;
     display: flex;
@@ -158,20 +179,20 @@
     align-items: center;
     padding: 0 10px;
     font-size: 13px;
-    }
+  }
 
-    @media only screen and (min-width: 767px) {
+  @media only screen and (min-width: 767px) {
     .mobile-icon {
-        display: none;
+      display: none;
     }
 
     .navbar-list {
-        display: flex;
-        padding: 0;
+      display: flex;
+      padding: 0;
     }
 
     .navbar-list a {
-        display: inline-flex;
+      display: inline-flex;
     }
-    }
+  }
 </style>

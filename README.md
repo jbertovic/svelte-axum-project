@@ -1,6 +1,7 @@
 # New Version 0.3.0
 - switched to using Vite as per current template setup from svelte [https://svelte.dev/](https://svelte.dev/)
 - modified backend to use `./front_end/dist` for static serve
+- small changes to the css
 
 # New Version 0.2.0
 - Will create breaking changes since I modifed the folder structure to use Cargo Workspaces
