@@ -11,9 +11,9 @@
 </script>
 
 <div>
-  <container class='wider'>
+  <container class="wider mobile">
     <p>Logged in as {$user}</p>
-    <p class='mono'>Response: {response}</p>
+    <p class="mono">Response: {response}</p>
   </container>
 </div>
 
@@ -23,5 +23,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  @media only screen and (max-width: 620px) {
+    container.mobile {
+      width: 300px;
+      word-wrap: break-word;
+    }
   }
 </style>
