@@ -1,6 +1,6 @@
 <script>
     import { user } from "./../js/store.js";
-    import { getSession, postLogin } from "./../js/auth"
+    import { getSession, postLogin } from "./../js/auth";
 
     let username, password;
     let errorMessage = "";
@@ -16,37 +16,51 @@
 </script>
 
 {#if !$user}
-    <div>
-        {#if errorMessage}
-            <div>
-                {errorMessage}
-            </div>
-        {/if}
+    {#if errorMessage}
         <div>
-            <label for="username">Username</label>
+            {errorMessage}
+        </div>
+    {/if}
+    <div>
+        <container>
+            <div>
+                <label for="username">Username</label>
                 <input
                     class="input"
                     type="username"
                     placeholder="username"
                     bind:value={username}
                 />
-            <label for="password">Password</label>
+                <label for="password">Password</label>
                 <input
                     class="input"
                     type="password"
-                    placeholder="Password"
+                    placeholder="password"
                     bind:value={password}
                 />
-        </div>
-        <div>
-                <button on:click={handleLogin}>
-                    Login
-                </button>
-        </div>
+                <button on:click={handleLogin}> Login </button>
+            </div>
+        </container>
     </div>
 {:else}
     <div>
-        Logged in as: {$user} <br />
-        Now you may access the <strong>secure area </strong>from the Nav above
+        <container>
+            Logged in as: {$user} <br />
+            Now you may access the <strong>secure area </strong>from the Nav above
+        </container>
     </div>
 {/if}
+
+<style>
+    div {
+        margin: 25px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    label {
+        width: 210px;
+        text-align: left;
+    }
+</style>

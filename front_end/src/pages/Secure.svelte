@@ -1,19 +1,34 @@
 <script>
-  import {onMount} from 'svelte';
+  import { onMount } from "svelte";
   import { user } from "./../js/store.js";
-  import {getSecure} from "./../js/fetch.js"
+  import { getSecure } from "./../js/fetch.js";
 
-  let response; 
+  let response;
 
-  onMount(async() => {
-          response = await getSecure();
+  onMount(async () => {
+    response = await getSecure();
   });
-
 </script>
 
-<p>Logged in as {$user}</p>
+<div>
+  <container class="wider mobile">
+    <p>Logged in as {$user}</p>
+    <p class="mono">Response: {response}</p>
+  </container>
+</div>
 
-<pre>
-Response:
-{response}
-</pre>
+<style>
+  div {
+    margin: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media only screen and (max-width: 620px) {
+    container.mobile {
+      width: 300px;
+      word-wrap: break-word;
+    }
+  }
+</style>

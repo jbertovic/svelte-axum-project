@@ -7,5 +7,5 @@ Cargo.lock
 
 # from svelte
 /front_end/node_modules
-/front_end/public/build/
+/front_end/dist/
 /front_end/package-lock.json

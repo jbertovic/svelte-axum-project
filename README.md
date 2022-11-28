@@ -1,5 +1,10 @@
-# New Version 0.2.0
+# New Version 0.3.0
+- switched to using Vite as per current template setup from svelte [https://svelte.dev/](https://svelte.dev/)
+- changed directory structure with ./front_end/public and location of index.html
+- modified backend to use `./front_end/dist` for static serve - location of `npm run build`
+- cleaned up css and added app.css and global css
 
+# New Version 0.2.0
 - Will create breaking changes since I modifed the folder structure to use Cargo Workspaces
 - Front end and Back end are in two different project folders instead of just different src folders
 - Workspaces now allow you to add Rust code independent of the back end server setup
@@ -14,7 +19,8 @@ Starting project template for Rust Axum backend and Svelte frontend.
 
 Created from a similar idea as [svelte-tide-project](https://github.com/jbertovic/svelte-tide-project)
 
-![](capture_localhost.gif)
+![](FullScreenCapture.png)
+![](MobileScreenCapture.png)
 
 # Template
 ## Using Cargo

@@ -17,7 +17,7 @@ mod store;
 
 // SETUP Constants
 const SESSION_COOKIE_NAME: &str = "axum_svelte_session";
-const FRONT_PUBLIC: &str = "./front_end/public";
+const FRONT_PUBLIC: &str = "./front_end/dist";
 const SERVER_PORT: &str = "8080";
 const SERVER_HOST: &str = "0.0.0.0";
 
