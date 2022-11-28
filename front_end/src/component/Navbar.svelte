@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
 
-  export let navItems = [{ label: "logo", href: "#" }];
+  export let navItems = [{ label: "logo", id: 0 }];
   export let menu = 1;
 
   // Show mobile icon and display menu
@@ -65,7 +65,6 @@
 <style>
   nav {
     background-color: rgba(0, 0, 0, 0.8);
-    font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     height: 45px;
   }
 
