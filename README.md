@@ -1,14 +1,17 @@
+# New Version 0.4.0
+- updated to `axum` 0.6
+  - changes to State usage; how its setup with route and called from middleware
+  - changes to ordering of parameters in functions; last parameter can consume request body
+  - eliminated `axum::extract::RequestParts` with help from update on `axum-sessions`
+- updated to `axum-sessions` 0.4 to match
+- incremented `tokio` version to 1.24
+- old `axum` 0.5 version is kept under branch `v0.3_Axum0.5`
+
 # New Version 0.3.0
 - switched to using Vite as per current template setup from svelte [https://svelte.dev/](https://svelte.dev/)
 - changed directory structure with ./front_end/public and location of index.html
 - modified backend to use `./front_end/dist` for static serve - location of `npm run build`
 - cleaned up css and added app.css and global css
-
-# New Version 0.2.0
-- Will create breaking changes since I modifed the folder structure to use Cargo Workspaces
-- Front end and Back end are in two different project folders instead of just different src folders
-- Workspaces now allow you to add Rust code independent of the back end server setup
-- Also refactored some of the setup out of main.rs into a server.rs file
 
 # Help
 - If anyone has ideas of how to implement a build file that would handle the npm script build on the front end and the rust cargo run together, let me know.
@@ -50,7 +53,7 @@ run as `cargo run` from parent directory and not needed to run inside `./back_en
 - secure page that shows session information once logged in
 - api fetch example, log in not required
 
-run as `npm run build` from inside the `./front_end` directory
+run as `npm run build` from inside the `./front_end` directory to build the static serve file directory.
 
 # Setup
 
