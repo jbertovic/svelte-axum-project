@@ -3,13 +3,13 @@ use axum::{
     middleware,
     response::IntoResponse,
     routing::{get, get_service, post},
-    Extension, Router,
+    Router,
 };
 use axum_sessions::{async_session::SessionStore, SessionLayer};
 use std::{io, sync::Arc};
 use tower_http::{services::ServeDir, trace::TraceLayer};
 
-use crate::{middlewares, routes, store, FRONT_PUBLIC};
+use crate::{middlewares, routes, store::{self, Store}, FRONT_PUBLIC};
 
 // *********
 // FRONT END
@@ -34,21 +34,18 @@ async fn handle_error(_err: io::Error) -> impl IntoResponse {
 // BACK END
 // ********
 // Back end server built form various routes that are either public, require auth, or secure login
-pub fn backend<Store>(
+pub fn backend<Store: SessionStore>(
     session_layer: SessionLayer<Store>,
     shared_state: Arc<store::Store>,
 ) -> Router
-where
-    Store: SessionStore,
 {
     // could add tower::ServiceBuilder here to group layers, especially if you add more layers.
     // see https://docs.rs/axum/latest/axum/middleware/index.html#ordering
     Router::new()
         .merge(back_public_route())
         .merge(back_auth_route())
-        .merge(back_token_route())
+        .merge(back_token_route(shared_state))
         .layer(session_layer)
-        .layer(Extension(shared_state))
 }
 
 // *********
@@ -77,8 +74,10 @@ pub fn back_auth_route() -> Router {
 // BACKEND API
 // *********
 //
-pub fn back_token_route() -> Router {
+// invoked with State that stores API that is checked by the `middleware::auth`
+pub fn back_token_route<S>(state: Arc<Store>) -> Router<S> {
     Router::new()
         .route("/api", get(routes::api::handler))
-        .route_layer(middleware::from_fn(middlewares::auth))
+        .route_layer(middleware::from_fn_with_state(state.clone(), middlewares::auth))
+        .with_state(state)
 }
