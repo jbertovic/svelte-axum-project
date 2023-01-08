@@ -1,10 +1,11 @@
 use std::sync::Arc;
 
 use axum::{
+    extract::State,
     http::{self, Request, StatusCode},
     middleware::Next,
     response::Response,
-    Json, extract::State,
+    Json,
 };
 use serde::{Deserialize, Serialize};
 
