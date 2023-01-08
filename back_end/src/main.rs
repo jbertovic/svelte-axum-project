@@ -48,6 +48,7 @@ async fn main() {
     let session_layer = SessionLayer::new(MemoryStore::new(), secret.as_bytes())
         .with_cookie_name(SESSION_COOKIE_NAME);
 
+    // combine the front and backend into server
     let app = Router::new()
         .merge(services::front_public_route())
         .merge(services::backend(session_layer, shared_state));

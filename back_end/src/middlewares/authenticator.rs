@@ -1,6 +1,7 @@
 use std::sync::Arc;
 
 use axum::{
+    extract::State,
     http::{self, Request, StatusCode},
     middleware::Next,
     response::Response,
@@ -17,6 +18,7 @@ use crate::store::Store;
 /// Returns Error's in JSON format.  
 #[allow(clippy::missing_errors_doc)]
 pub async fn auth<B: Send + Sync>(
+    State(store): State<Arc<Store>>,
     req: Request<B>,
     next: Next<B>,
 ) -> Result<Response, (StatusCode, Json<JsonError>)> {
@@ -35,21 +37,12 @@ pub async fn auth<B: Send + Sync>(
     tracing::debug!("Received Authorization Header: {}", auth_header);
 
     // check bearer authorization to see if it matches
-    if let Some(store) = req.extensions().get::<Arc<Store>>() {
-        if store.api_token_check(auth_header) {
-            Ok(next.run(req).await)
-        } else {
-            tracing::debug!("Authorization token does NOT match");
-            //            return Ok(Json(json!( {"error": "Unauthorized"} )).into_response());
-            Err((StatusCode::UNAUTHORIZED, Json(JsonError::unauthorized())))
-        }
+    if store.api_token_check(auth_header) {
+        Ok(next.run(req).await)
     } else {
-        tracing::debug!("Can't retrieve Store");
-        //        return Ok(Json(json!( {"error": "Internal Server Error"} )).into_response());
-        Err((
-            StatusCode::INTERNAL_SERVER_ERROR,
-            Json(JsonError::internal()),
-        ))
+        tracing::debug!("Authorization token does NOT match");
+        //            return Ok(Json(json!( {"error": "Unauthorized"} )).into_response());
+        Err((StatusCode::UNAUTHORIZED, Json(JsonError::unauthorized())))
     }
 }
 
