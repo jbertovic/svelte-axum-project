@@ -1,12 +1,11 @@
 use axum::{
     http::StatusCode,
     middleware,
-    response::IntoResponse,
-    routing::{get, get_service, post},
-    Router,
+    routing::{get, post},
+    Router, handler::HandlerWithoutStateExt,
 };
 use axum_sessions::{async_session::SessionStore, SessionLayer};
-use std::{io, sync::Arc};
+use std::sync::Arc;
 use tower_http::{services::ServeDir, trace::TraceLayer};
 
 use crate::{
@@ -21,12 +20,12 @@ use crate::{
 // Front end to server svelte build bundle, css and index.html from public folder
 pub fn front_public_route() -> Router {
     Router::new()
-        .fallback_service(get_service(ServeDir::new(FRONT_PUBLIC)).handle_error(handle_error))
+        .fallback_service(ServeDir::new(FRONT_PUBLIC).not_found_service(handle_error.into_service()))
         .layer(TraceLayer::new_for_http())
 }
 
 #[allow(clippy::unused_async)]
-async fn handle_error(_err: io::Error) -> impl IntoResponse {
+async fn handle_error() -> (StatusCode, &'static str) {
     (
         StatusCode::INTERNAL_SERVER_ERROR,
         "Something went wrong accessing static files...",

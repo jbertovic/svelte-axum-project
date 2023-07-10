@@ -1,5 +1,13 @@
+# New Version 0.4.1
+- bumped version on `axum` to 0.6.18
+- bumped version on `axum-sessions` to 0.5
+- bumped version on `tower-http` to 0.4
+- backend changed how servedir works from `tower-http` for serving front end static assets
+
+
+
 # New Version 0.4.0
-- updated to `axum` 0.6
+  - updated to `axum` 0.6
   - changes to State usage; how its setup with route and called from middleware
   - changes to ordering of parameters in functions; last parameter can consume request body
   - eliminated `axum::extract::RequestParts` with help from update on `axum-sessions`
