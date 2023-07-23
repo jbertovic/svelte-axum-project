@@ -3,8 +3,6 @@
 - bumped versions on front-end; `vite-plugin-svelte` to 2.4.2, `svelte` to 4.0.5, `vite` to 4.4.5
 - backend changed how servedir works from `tower-http` for serving front end static assets
 
-
-
 # New Version 0.4.0
   - updated to `axum` 0.6
   - changes to State usage; how its setup with route and called from middleware
