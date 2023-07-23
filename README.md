@@ -1,7 +1,6 @@
 # New Version 0.4.1
-- bumped version on `axum` to 0.6.18
-- bumped version on `axum-sessions` to 0.5
-- bumped version on `tower-http` to 0.4
+- bumped version on backend; `axum` to 0.6.18, `axum-sessions` to 0.5, `tower-http` to 0.4
+- bumped versions on front-end; `vite-plugin-svelte` to 2.4.2, `svelte` to 4.0.5, `vite` to 4.4.5
 - backend changed how servedir works from `tower-http` for serving front end static assets
 
 
