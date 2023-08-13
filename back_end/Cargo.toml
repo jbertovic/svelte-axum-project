@@ -1,6 +1,6 @@
 [package]
 name = "svelte-axum-project"
-version = "0.4.0"
+version = "0.4.1"
 edition = "2021"
 repository = "https://github.com/jbertovic/svelte-axum-project"
 keywords = ["template", "backend", "frontend", "axum", "svelte"]
@@ -11,9 +11,9 @@ readme = "README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-axum = { version="0.6.1", features = ["headers"] }
-tower-http = { version = "0.3", features = ["full"] }
-axum-sessions = "0.4"
+axum = { version="0.6.20", features = ["headers"] }
+tower-http = { version = "0.4", features = ["full"] }
+axum-sessions = "0.5"
 tokio = { version = "1.24", features = ["full"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
