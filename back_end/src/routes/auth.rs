@@ -1,11 +1,12 @@
 use axum::{response::IntoResponse, Json};
-use axum_sessions::{async_session::serde_json::json, extractors::WritableSession};
 use serde::Deserialize;
+use serde_json::json;
+use tower_sessions::Session;
 
 /// route to handle log in
 #[allow(clippy::unused_async)]
 #[allow(clippy::missing_panics_doc)]
-pub async fn login(mut session: WritableSession, Json(login): Json<Login>) -> impl IntoResponse {
+pub async fn login(session: Session, Json(login): Json<Login>) -> impl IntoResponse {
     tracing::info!("Logging in user: {}", login.username);
 
     if check_password(&login.username, &login.password) {
@@ -18,11 +19,11 @@ pub async fn login(mut session: WritableSession, Json(login): Json<Login>) -> im
 
 /// route to handle log out
 #[allow(clippy::unused_async)]
-pub async fn logout(mut session: WritableSession) -> impl IntoResponse {
-    let user = session.get_raw("user_id").unwrap_or_default();
+pub async fn logout(session: Session) -> impl IntoResponse {
+    let user = session.get_value("user_id").unwrap_or_default();
     tracing::info!("Logging out user: {}", user);
     // drop session
-    session.destroy();
+    session.flush();
     Json(json!({"result": "ok"}))
 }
 
