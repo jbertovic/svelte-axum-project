@@ -5,6 +5,10 @@ Starting project template for Rust Axum backend and Svelte frontend.  Simple Sin
 ![](FullScreenCapture.png)
 ![](MobileScreenCapture.png)
 
+# New Version 0.4.2
+- migration of `axum-sessions` to `tower-sessions` see [pr#14](https://github.com/jbertovic/svelte-axum-project/pull/14)
+- removal of secret key warning due to migration
+
 # New Version 0.4.1
 - bumped version on backend; `axum` to 0.6.20, `axum-sessions` to 0.5, `tower-http` to 0.4
 - bumped versions on front-end; `vite-plugin-svelte` to 2.4.2, `svelte` to 4.0.5, `vite` to 4.4.5

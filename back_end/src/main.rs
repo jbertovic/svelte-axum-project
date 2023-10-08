@@ -74,9 +74,6 @@ async fn shutdown_signal() {
 // Variables from Environment or default to configure server
 // port, host, secret
 fn from_env() -> (String, String) {
-    if env::var("SERVER_SECRET").is_err() {
-        warn!("env var SERVER_SECRET should be set and unique (64 bytes long)");
-    }
     (
         env::var("SERVER_PORT")
             .ok()
