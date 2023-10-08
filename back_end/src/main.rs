@@ -4,9 +4,9 @@
 #![allow(missing_docs)]
 
 use axum::Router;
-use axum_sessions::{async_session::MemoryStore, SessionLayer};
 use std::net::SocketAddr;
 use std::{env, sync::Arc};
+use tower_sessions::{MemoryStore, SessionManagerLayer};
 use tracing::log::warn;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
@@ -35,7 +35,7 @@ async fn main() {
         .init();
 
     // configure server from environmental variables
-    let (port, host, secret) = from_env();
+    let (port, host) = from_env();
 
     let addr: SocketAddr = format!("{}:{}", host, port)
         .parse()
@@ -45,8 +45,8 @@ async fn main() {
     let shared_state = Arc::new(store::Store::new("123456789"));
 
     // setup up sessions and store to keep track of session information
-    let session_layer = SessionLayer::new(MemoryStore::new(), secret.as_bytes())
-        .with_cookie_name(SESSION_COOKIE_NAME);
+    let session_store = MemoryStore::default();
+    let session_layer = SessionManagerLayer::new(session_store).with_name(SESSION_COOKIE_NAME);
 
     // combine the front and backend into server
     let app = Router::new()
@@ -73,7 +73,7 @@ async fn shutdown_signal() {
 
 // Variables from Environment or default to configure server
 // port, host, secret
-fn from_env() -> (String, String, String) {
+fn from_env() -> (String, String) {
     if env::var("SERVER_SECRET").is_err() {
         warn!("env var SERVER_SECRET should be set and unique (64 bytes long)");
     }
@@ -84,9 +84,5 @@ fn from_env() -> (String, String, String) {
         env::var("SERVER_HOST")
             .ok()
             .unwrap_or_else(|| SERVER_HOST.to_string()),
-        env::var("SERVER_SECRET").ok().unwrap_or_else(|| {
-            "this needs to be 64bytes. recommended that you set Secret instead of fixed value"
-                .to_string()
-        }),
     )
 }

@@ -1,5 +1,5 @@
 use axum::{response::IntoResponse, Json};
-use axum_sessions::async_session::serde_json::json;
+use serde_json::json;
 
 /// imitating an API response
 #[allow(clippy::unused_async)]
