@@ -24,7 +24,7 @@ Starting project template for Rust Axum backend and Svelte frontend.  Simple Sin
 - old `axum` 0.5 version is kept under branch `v0.3_Axum0.5`
 
 # Help
-- If anyone has ideas of how to implement a build file that would handle the npm script build on the front end and the rust cargo run together, let me know.
+- We currently have a build script that builds the full stack concurrently for Linux. We would appreciate alternatives for Mac (should be minor tweak of Linux build script) and Windows.
 
 # Template
 ## Using Cargo
@@ -68,3 +68,5 @@ Clone the repository
 - inside the `./front_end` folder run `npm run build` to bundle the js/svelte code into public folder
 - inside the top level folder run `cargo run` to start the the server
 - access in browser at http://localhost:8080/
+
+In case you need to build both at once and use Linux, run `./build-fullstack.sh`
